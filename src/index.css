@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-primary: #111827;
+  --color-brand-secondary: #6b7280;
+  --color-brand-accent: #2563eb;
+}
+
+@layer base {
+  body {
+    @apply font-sans text-brand-primary bg-white antialiased;
+  }
+}
+
+@layer components {
+  .markdown-body {
+    @apply prose prose-slate max-w-none;
+    @apply prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-brand-primary;
+    @apply prose-p:text-slate-600 prose-p:leading-[1.8] prose-p:mb-8;
+    @apply prose-a:text-brand-accent prose-a:font-semibold prose-a:no-underline hover:prose-a:underline prose-a:underline-offset-4;
+    @apply prose-code:text-brand-primary prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none prose-code:font-mono prose-code:text-[0.9em];
+    @apply prose-pre:bg-slate-50 prose-pre:text-slate-900 prose-pre:rounded-[2rem] prose-pre:border prose-pre:border-slate-100 prose-pre:p-0 prose-pre:shadow-sm;
+    @apply prose-img:rounded-[2rem] prose-img:shadow-2xl prose-img:shadow-slate-200 prose-img:my-16;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50/30 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-2xl prose-blockquote:italic prose-blockquote:text-slate-700;
+    @apply prose-strong:text-slate-900 prose-strong:font-bold;
+    @apply prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6;
+    @apply prose-li:text-slate-600 prose-li:mb-2;
+  }
+}
