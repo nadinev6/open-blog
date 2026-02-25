@@ -1,4 +1,4 @@
-![Lingo Bridge Header](/语意连通.png)
+<img width="1536" height="672" alt="语意连通" src="https://github.com/user-attachments/assets/cc2c2452-306f-4177-9e7b-f2a12f5affb3" />
 
 # Bridging the Semantic Gap in Multi-Token Retrieval Pipelines
 
@@ -6,7 +6,7 @@
 
 In CJK (Chinese, Japanese, Korean) languages, literal string translation is a flawed method for sourcing product listings. Many distinct products share homophones (identical phonetic pronunciations), and a literal string translation of English queries often returns irrelevant results due to context misalignment.
 
-Semantic Drift occurs when a word-for-word translation fails to capture the buyer's intent. For example, a search for 'carbide mills' (an industrial material) can easily be confused with 'cake moulds'—a phonetic and semantic "collision" that stalls procurement.
+Semantic Drift occurs when a word-for-word translation fails to capture the buyer's intent. For example, a search for 'carbide mills' (an industrial material) can easily be confused with 'cake moulds. This is a phonetic and semantic collision caused by misinterpretation.
 
 ## Lingo Bridge: A Functional Localisation Engine
 
@@ -25,7 +25,7 @@ This localisation process follows a specific sequence to ensure the highest accu
 Traditional transliteral translations often fail in a wholesale context because there is no semantic or industry-specific awareness associated with a search query. Furthermore, product catalogues are too diverse to curate manually.
 
 ### Synonym Expansion & Homophone Mitigation
-Semantic drift is eliminated by translating the buyer's **intent** into native SEO keywords. The risk exists at the **translation layer**: the character for electricity (电) and mat (垫) are both pronounced *diàn* in Mandarin. A naive transliteration system operating on phonetics rather than semantics could route a "power supply" query to kitchenware instead of electronics. The Lingo.dev SDK avoids this by translating **meaning**, not sound — so "Power Station" becomes `户外电源` (outdoor power supply), not `电站` (power plant).
+Semantic drift is eliminated by translating the buyer's **intent** into native SEO keywords. The risk exists at the **translation layer**: the character for electricity (电) and mat (垫) are both pronounced *diàn* in Mandarin. A naive transliteration system operating on phonetics rather than semantics could route a "power supply" query to kitchenware instead of electronics. The Lingo.dev SDK avoids this by translating **meaning**, not sound. This is how so "Power Station" becomes `户外电源` (outdoor power supply), not `电站` (power plant).
 
 ## The Domain Glossary
 
@@ -228,7 +228,9 @@ function gateForVisionAPI(scoredProducts, topN = TOP_N_GATEKEEPER) {
 
 ## Results
 
-![Confidence Distribution by Product Category](/confidence-distribution_(2).png)
+<img width="780" height="230" alt="confidence-distribution (2)" src="https://github.com/user-attachments/assets/c0193601-be44-4a25-8869-731d220e875e" />
+
+To validate the pipeline, I ran a comparative analysis across three distinct categories: Consumer Goods (Silk Pillowcases), Technical Electronics (Outdoor Power), and Industrial Tooling (Carbide).
 
 | Confidence | 户外电源 (Outdoor power) | 真丝枕套 (Silk pillowcase) | 硬质合金 (Carbide) |
 |---|---|---|---|
@@ -236,6 +238,12 @@ function gateForVisionAPI(scoredProducts, topN = TOP_N_GATEKEEPER) {
 | 50–69% | 16 (31.4%) | 3 (6.0%) | 6 (12.0%) |
 | <50% | 24 (47.1%) | 8 (16.0%) | 44 (88.0%) |
 | **Total** | **51** | **50** | **50** |
+
+### Key Observations
+
+* **The "Commodity Ease":** Silk pillowcases (**78.0% High Confidence**) proved to be semantically stable. There is minimal linguistic ambiguity in this category, allowing the `lingo.dev` SDK to achieve high-precision matches almost instantly.
+* **The "Industrial Challenge":** Carbide (**0.0% High Confidence**) represents the "Final Boss" of CJK procurement. These low scores are not a failure of the system, but a success of the **Price Guard** and **Negative Keyword** logic. The pipeline correctly identified and demoted a high volume of technical mismatches and "accessory-bait" (like the cake moulds mentioned earlier) found in the raw 1688 data.
+* **Precision over Recall:** The system is deliberately aggressive in its down-scoring. From a procurement standpoint, it is far more valuable to see **zero results** for a technical query than to be presented with 50 irrelevant items that bypass a naive filter.
 
 ## Post-Mortem: Safety & Rate Limiting
 During development, an autonomous AI debugging loop triggered 20+ unsupervised runs. We treated this as a production failure and implemented:
