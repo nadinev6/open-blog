@@ -6,7 +6,7 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: '/open-blog/', // GitHub Pages base path for nadinev6.github.io/open-blog
+    base: '/', // Root path for custom domain (blog.pixel-geist.co.za) and Netlify
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
