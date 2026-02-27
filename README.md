@@ -23,7 +23,43 @@ To change the author name, social links, blog title, or category, edit the const
 - **Drag & Drop**: If you drag images into the GitHub editor while editing `post.md`, GitHub will generate a URL. Use that URL in your Markdown: `![Alt Text](https://github.com/...)`.
 - **Local Images**: Place image files in the `/public` folder and reference them with a leading slash: `![Alt Text](/my-image.png)`.
 
-## 4. Deploying to GitHub Pages
+## 4. RSS Feed & Cross-Posting to dev.to
+
+### RSS Feed Generation
+The blog automatically generates an RSS feed during the build process.
+
+- **Feed URL**: `https://lingo-bridge.vercel.app/rss.xml`
+- **Generated File**: `/public/rss.xml`
+- **Script**: `/scripts/generate-rss.mjs`
+
+### Adding New Posts to RSS
+Edit the `POSTS` array in `/scripts/generate-rss.mjs`:
+
+```javascript
+const POSTS = [
+  {
+    title: "Your New Post Title",
+    description: "A brief description for the feed",
+    path: "/content/new-post.md",
+    url: "/new-post",
+    date: "2026-03-01",
+    categories: ["Category", "Series Name"],
+  },
+  // ...existing posts
+];
+```
+
+### Cross-Posting to dev.to
+1. Go to [dev.to/settings/extensions](https://dev.to/settings/extensions)
+2. Under "Publishing to dev.to from RSS", enter your feed URL
+3. dev.to will automatically import new posts when published
+
+### Manual RSS Generation
+```bash
+npm run generate:rss
+```
+
+## 5. Deploying to GitHub Pages
 1. **Push Changes**: Commit and push your changes to your GitHub repository.
 2. **Build & Deploy**:
    - If you have a GitHub Action set up (recommended), it will deploy automatically.

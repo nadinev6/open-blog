@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;800&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -31,4 +31,123 @@
     @apply prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6;
     @apply prose-li:text-slate-600 prose-li:mb-2;
   }
+}
+
+/* Shard Footer - Ghost */
+:root {
+  --bg-geist: #030305;
+  --glass-dark: rgba(255, 255, 255, 0.015);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --spectral-2: #00fff0;
+  --geist-border: rgba(255, 255, 255, 0.1);
+}
+
+.shard-well-ghost {
+  background: #fff;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  font-family: 'JetBrains Mono', monospace;
+  border-top: 1px solid var(--border-subtle);
+  position: relative;
+  margin-top: auto;
+}
+
+.shard-slab {
+  background: #fff;
+  padding: 40px 30px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  z-index: 5;
+  overflow: hidden;
+}
+
+/* THE INVERSION: Revealing the Silica/Geist texture on hover */
+.shard-slab:not(.disabled):hover {
+  background: var(--bg-geist);
+  color: #fff;
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  border-color: var(--geist-border);
+  z-index: 10;
+}
+
+/* Adding the grain overlay ONLY on hover */
+.shard-slab::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  filter: url(#grainy);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.shard-slab:hover::after {
+  opacity: 0.15;
+}
+
+.label-meta {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 0.3em;
+  transition: color 0.4s ease;
+}
+
+.shard-slab:hover .label-meta {
+  color: var(--spectral-2);
+}
+
+.label-main {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  transition: color 0.4s ease;
+}
+
+.shard-slab:hover .label-main {
+  color: #fff;
+}
+
+.shard-slab.disabled {
+  background: #fafafa;
+  cursor: not-allowed;
+}
+
+.shard-slab.disabled .label-main {
+  color: #ccc;
+}
+
+/* Project Slab - White, no hover effect */
+.shard-slab.project-slab {
+  background: #fff;
+  cursor: default;
+}
+
+.shard-slab.project-slab:hover {
+  background: #fff;
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border-subtle);
+  z-index: 5;
+}
+
+.shard-slab.project-slab:hover .label-meta {
+  color: #888;
+}
+
+.shard-slab.project-slab:hover .label-main {
+  color: #000;
+}
+
+.shard-slab.project-slab::after {
+  display: none;
 }

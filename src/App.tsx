@@ -6,8 +6,8 @@ import rehypeSlug from 'rehype-slug';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, Github, Link as LinkIcon, ArrowUpRight, Copy, Check, Mail } from 'lucide-react';
-import { AUTHOR_DETAILS } from './constants';
+import { ChevronRight, Github, Link as LinkIcon, ArrowUpRight, Copy, Check } from 'lucide-react';
+import { AUTHOR_DETAILS, NEXT_ARTICLE } from './constants';
 
 const XIcon = ({ size = 20 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -25,7 +25,6 @@ export default function App() {
   const [content, setContent] = useState('');
   const [toc, setToc] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState('');
-  const [newsletterEmail, setNewsletterEmail] = useState('');
 
   useEffect(() => {
     fetch('/content/post.md')
@@ -64,8 +63,8 @@ export default function App() {
   }, [content]);
 
   return (
-    <div className="min-h-screen bg-white selection:bg-blue-100 selection:text-blue-900">
-      <main className="pt-16 pb-20">
+    <div className="min-h-screen bg-white selection:bg-blue-100 selection:text-blue-900 flex flex-col">
+      <main className="pt-16 pb-20 flex-1">
         {/* Hero Section */}
         <header className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <motion.div
@@ -180,35 +179,48 @@ export default function App() {
               {/* Footer / Share */}
               <footer className="mt-20 pt-10 border-t border-slate-100">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-                  <div className="flex items-center gap-3">
+                  {/* Neumorphic Social Buttons */}
+                  <div className="flex items-center gap-5">
                     <a 
                       href={AUTHOR_DETAILS.socials.x} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-3 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all duration-200"
+                      className="w-[60px] h-[60px] rounded-[18px] bg-[#f5f5f5] flex items-center justify-center text-[#555] no-underline transition-all duration-400 
+shadow-[4px_4px_8px_#bebebe,-4px_-4px_8px_#ffffff] 
+hover:shadow-[inset_3px_3px_6px_#bebebe,inset_-3px_-3px_6px_#ffffff] 
+hover:scale-[0.96] hover:text-black relative group"
                     >
-                      <XIcon size={18} />
+                      <XIcon size={24} />
+                      <span className="absolute inset-0 rounded-[18px] border border-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </a>
                     <a 
                       href={AUTHOR_DETAILS.socials.website} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-3 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all duration-200"
+                      className="w-[60px] h-[60px] rounded-[18px] bg-[#f5f5f5] flex items-center justify-center text-[#555] no-underline transition-all duration-400 
+shadow-[4px_4px_8px_#bebebe,-4px_-4px_8px_#ffffff] 
+hover:shadow-[inset_3px_3px_6px_#bebebe,inset_-3px_-3px_6px_#ffffff] 
+hover:scale-[0.96] hover:text-black relative group"
                     >
-                      <LinkIcon size={18} />
+                      <LinkIcon size={24} />
+                      <span className="absolute inset-[2px] rounded-[16px] border border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </a>
                     <a 
                       href={AUTHOR_DETAILS.socials.github} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-3 rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all duration-200"
+                      className="w-[60px] h-[60px] rounded-[18px] bg-[#f5f5f5] flex items-center justify-center text-[#555] no-underline transition-all duration-400 
+shadow-[4px_4px_8px_#bebebe,-4px_-4px_8px_#ffffff] 
+hover:shadow-[inset_3px_3px_6px_#bebebe,inset_-3px_-3px_6px_#ffffff] 
+hover:scale-[0.96] hover:text-black relative group"
                     >
-                      <Github size={18} />
+                      <Github size={24} />
+                      <span className="absolute inset-0 rounded-[18px] border border-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </a>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-slate-400 font-medium uppercase tracking-wider">
                     <span>Found a typo?</span>
-                    <a href={AUTHOR_DETAILS.editUrl} target="_blank" rel="noopener noreferrer" className="text-slate-900 font-bold hover:underline underline-offset-4">Edit on GitHub</a>
+                    <a href="mailto:hi@pixel-geist.co.za?subject=Typo%20Report" className="text-slate-900 font-bold hover:underline underline-offset-4">Let us know</a>
                   </div>
                 </div>
               </footer>
@@ -242,32 +254,14 @@ export default function App() {
                   </nav>
                 </div>
 
-                <div className="p-8 bg-slate-900 rounded-[2rem] text-white shadow-2xl shadow-slate-200">
-                  <h4 className="font-bold text-lg mb-2">Join the Newsletter</h4>
-                  <p className="text-sm text-slate-400 mb-6 leading-relaxed">{AUTHOR_DETAILS.newsletter.description}</p>
-                  <div className="space-y-3">
-                    <input 
-                      type="email" 
-                      placeholder="you@example.com" 
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-sm focus:outline-none focus:ring-2 focus:ring-white/20 transition-all placeholder:text-white/30"
-                    />
-                    <button 
-                      onClick={() => {
-                        window.location.href = `mailto:${AUTHOR_DETAILS.newsletter.email}?subject=Newsletter Subscription&body=I would like to subscribe. My email is: ${newsletterEmail}`;
-                      }}
-                      className="w-full bg-white text-slate-900 py-3 rounded-xl text-sm font-bold hover:bg-slate-100 transition-all active:scale-[0.98]"
-                    >
-                      Email
-                    </button>
-                  </div>
-                </div>
-
                 <div className="mt-8">
                   <a href={AUTHOR_DETAILS.projectSource} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between p-5 rounded-2xl border border-slate-100 hover:bg-slate-50 transition-all duration-300">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-slate-50 text-slate-900 rounded-xl flex items-center justify-center group-hover:bg-white transition-colors">
+                      <div className="w-10 h-10 bg-[#f5f5f5] text-[#555] rounded-[12px] 
+shadow-[2px_2px_4px_#d1d1d1,-2px_-2px_4px_#ffffff] 
+flex items-center justify-center 
+group-hover:bg-[#121212] group-hover:text-white 
+transition-all duration-400">
                         <Github size={20} />
                       </div>
                       <div className="text-sm font-bold text-slate-900">View Source</div>
@@ -280,11 +274,58 @@ export default function App() {
           </div>
         </div>
       </main>
-      <footer className="py-12 border-t border-slate-50 text-center">
-        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
-          Built for those who refuse to be censored.
-        </p>
+      
+      {/* SVG Filter for Grain Effect */}
+      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+        <filter id="grainy">
+          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+      </svg>
+
+      {/* Shard Footer - Ghost */}
+      <footer className="shard-well-ghost">
+        {/* Project Slab - No Hover */}
+        <div className="shard-slab project-slab">
+          <span className="label-meta">Project // Labs</span>
+          <span className="label-main">PIXEL-GEIST / 01</span>
+        </div>
+
+        {/* Next Iteration Slab */}
+        {NEXT_ARTICLE ? (
+          <a href={NEXT_ARTICLE.url} className="shard-slab">
+            <span className="label-meta">Next iteration_</span>
+            <span className="label-main">{NEXT_ARTICLE.label}</span>
+          </a>
+        ) : (
+          <div className="shard-slab disabled">
+            <span className="label-meta">Next iteration_</span>
+            <span className="label-main">COMING SOON</span>
+          </div>
+        )}
+
+        {/* Directory Slab - Back to Top */}
+        <a
+          href="#"
+          className="shard-slab"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        >
+          <span className="label-meta">Directory</span>
+          <span className="label-main">INDEX</span>
+        </a>
+
+        {/* Connect Slab - X */}
+        <a
+          href={AUTHOR_DETAILS.socials.x}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shard-slab"
+        >
+          <span className="label-meta">Connect</span>
+          <span className="label-main">X</span>
+        </a>
       </footer>
+
     </div>
   );
 }
